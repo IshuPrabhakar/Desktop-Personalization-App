@@ -1,0 +1,254 @@
+﻿<Window
+    x:Class="Desktop.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ViewModel="clr-namespace:Desktop.ViewModel"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Desktop"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="MainWindow"
+    Width="1200"
+    Height="700"
+    MinWidth="700"
+    MinHeight="350"
+    AllowsTransparency="True"
+    Background="Transparent"
+    ResizeMode="NoResize"
+    ShowInTaskbar="False"
+    TextOptions.TextFormattingMode="Ideal"
+    TextOptions.TextRenderingMode="Auto"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="None"
+    mc:Ignorable="d">
+    <Window.Resources>
+        <ViewModel:MainWindowViewModel x:Key="ViewModel" />
+    </Window.Resources>
+
+
+    <Border
+        Padding="2"
+        Background="White"
+        CornerRadius="13"
+        DataContext="{StaticResource ViewModel}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40" />
+                <RowDefinition />
+                <RowDefinition Height="45" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="65" />
+                <ColumnDefinition />
+                <ColumnDefinition Width="139" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel
+                Grid.Row="0"
+                Grid.Column="2"
+                Height="37"
+                Margin="0,-1,0,0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Top"
+                Panel.ZIndex="6"
+                Background="Transparent"
+                Orientation="Horizontal">
+
+                <Button
+                    Width="45"
+                    HorizontalAlignment="Center"
+                    Background="Transparent"
+                    Command="{Binding WindowMinimise}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                    Style="{StaticResource DefaultButton}">
+                    <Grid>
+                        <materialDesign:PackIcon
+                            Width="20"
+                            Height="20"
+                            Foreground="Black"
+                            Kind="Minus" />
+                    </Grid>
+                </Button>
+                <Button
+                    Width="45"
+                    HorizontalAlignment="Center"
+                    Background="Transparent"
+                    Command="{Binding WindowMaximise}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                    Style="{StaticResource DefaultButton}">
+                    <Grid>
+                        <materialDesign:PackIcon
+                            x:Name="MaximiseButton"
+                            Width="20"
+                            Height="20"
+                            Foreground="Black"
+                            Kind="Fullscreen" />
+                    </Grid>
+                </Button>
+                <Button
+                    Width="50"
+                    HorizontalAlignment="Center"
+                    materialDesign:ButtonAssist.CornerRadius="0,13,0,0"
+                    Background="Transparent"
+                    Command="{Binding WindowClose}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                    Style="{StaticResource CloseButtonStyle}">
+                    <Grid>
+                        <materialDesign:PackIcon
+                            Width="20"
+                            Height="20"
+                            Foreground="Black"
+                            Kind="Close" />
+                    </Grid>
+                </Button>
+            </StackPanel>
+
+            <!--  SIDE NAVIGATION BUTTONS  -->
+            <Border
+                Grid.RowSpan="3"
+                Background="White"
+                BorderBrush="#FFDADADA"
+                CornerRadius="10,13,10,13">
+                <Border.Effect>
+                    <DropShadowEffect
+                        BlurRadius="15"
+                        Direction="300"
+                        Opacity="0.3"
+                        ShadowDepth="1" />
+                </Border.Effect>
+                <Grid>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="100" />
+                            <RowDefinition Height="250" />
+                            <RowDefinition Height="120" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="64" />
+                            <ColumnDefinition Width="auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <!--  LOGO BUTTON  -->
+                        <Button
+                            Background="{DynamicResource MaterialDesignTextFieldBoxBackground}"
+                            Style="{StaticResource MaterialDesignIconButton}"
+                            ToolTip="About">
+                            <Button.Content>
+                                <Image Height="30" Source="Assets/AppIcon.png" />
+                            </Button.Content>
+                        </Button>
+
+                        <Separator
+                            Grid.Row="0"
+                            Margin="5"
+                            VerticalAlignment="Bottom"
+                            Background="#FFCDCDCD" />
+
+                        <Grid
+                            Grid.Row="1"
+                            Grid.ColumnSpan="2"
+                            Margin="0,60,0,0"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch">
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Button
+                                Width="40"
+                                Height="40"
+                                Background="{DynamicResource MaterialDesignTextFieldBoxBackground}"
+                                Command="{Binding NavigateToWallpapers}"
+                                Style="{StaticResource MaterialDesignIconButton}"
+                                ToolTip="Wallpapers">
+                                <materialDesign:PackIcon Foreground="#FF0074FF" Kind="Wallpaper" />
+                            </Button>
+
+                            <Button
+                                Grid.Row="1"
+                                Width="40"
+                                Height="40"
+                                Background="{DynamicResource MaterialDesignTextFieldBoxBackground}"
+                                Command="{Binding NavigateToIcons}"
+                                Style="{StaticResource MaterialDesignIconButton}"
+                                ToolTip="Icons">
+                                <materialDesign:PackIcon Foreground="#FFFF2E00" Kind="InfoCircleOutline" />
+                            </Button>
+
+                            <Button
+                                Grid.Row="2"
+                                Width="40"
+                                Height="40"
+                                Background="{DynamicResource MaterialDesignTextFieldBoxBackground}"
+                                Command="{Binding NavigateToFonts}"
+                                Style="{StaticResource MaterialDesignIconButton}"
+                                ToolTip="Fonts">
+                                <materialDesign:PackIcon Foreground="Black" Kind="FormatFont" />
+                            </Button>
+
+
+                        </Grid>
+
+
+                        <!--  SETTINGS AND LOGOUT BUTTONS  -->
+                        <Grid
+                            Grid.Row="3"
+                            Height="100"
+                            Margin="0,10,0,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="50" />
+                                <RowDefinition Height="50" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+
+                            <Button
+                                Width="30"
+                                Height="30"
+                                HorizontalAlignment="Center"
+                                Background="{DynamicResource MaterialDesignTextFieldBoxBackground}"
+                                Command="{Binding Settings}"
+                                Style="{StaticResource MaterialDesignIconButton}">
+                                <materialDesign:PackIcon
+                                    Width="20"
+                                    Height="20"
+                                    Foreground="#FF595F68"
+                                    Kind="Cog" />
+                            </Button>
+
+                            <Button
+                                Grid.Row="1"
+                                Width="30"
+                                Height="30"
+                                HorizontalAlignment="Center"
+                                Background="{DynamicResource MaterialDesignTextFieldBoxBackground}"
+                                Style="{StaticResource MaterialDesignIconButton}">
+                                <materialDesign:PackIcon
+                                    Width="20"
+                                    Height="20"
+                                    Foreground="#FF2694E0"
+                                    Kind="Logout" />
+                            </Button>
+
+                        </Grid>
+                    </Grid>
+                </Grid>
+
+            </Border>
+
+            <Frame
+                x:Name="Container"
+                Grid.Row="1"
+                Grid.RowSpan="2"
+                Grid.Column="1"
+                Grid.ColumnSpan="2"
+                Margin="15,0,0,0"
+                NavigationUIVisibility="Hidden"
+                Source="{Binding FramePage}" />
+
+        </Grid>
+    </Border>
+</Window>

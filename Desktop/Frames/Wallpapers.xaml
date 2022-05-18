@@ -1,0 +1,211 @@
+﻿<Page
+    x:Class="Desktop.Frames.Wallpapers"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ViewModel="clr-namespace:Desktop.ViewModel"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:local="clr-namespace:Desktop.Frames"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Wallpapers"
+    d:DesignHeight="950"
+    d:DesignWidth="1100"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <ViewModel:WallpapersViewModel x:Key="ViewModel" />
+    </Page.Resources>
+
+    <ScrollViewer DataContext="{StaticResource ViewModel}">
+
+        <Grid x:Name="DropArea" Background="White">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="450" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="5*" />
+                </Grid.ColumnDefinitions>
+
+                <!--  Recently Used Panel  -->
+                <Grid Width="370">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="80" />
+                        <RowDefinition Height="30" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <!--  PAGE LABEL  -->
+                    <Label
+                        Margin="10"
+                        Content="Wallpapers"
+                        FontFamily="Century Gothic"
+                        FontSize="25" />
+
+                    <!--  LIST HEADER  -->
+                    <Label
+                        Grid.Row="1"
+                        Margin="10,0,0,0"
+                        Content="Recently used"
+                        FontFamily="Century Gothic"
+                        FontSize="16" />
+
+                    <ListBox
+                        x:Name="RList"
+                        Grid.Row="2"
+                        Margin="10,15,55,0"
+                        materialDesign:ListBoxItemAssist.CornerRadius="13"
+                        materialDesign:ListBoxItemAssist.ShowSelection="False"
+                        materialDesign:ScrollViewerAssist.IsAutoHideEnabled="True"
+                        ItemsSource="{Binding RecentFiles}"
+                        ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                        ScrollViewer.VerticalScrollBarVisibility="Auto">
+
+                        <!--  to change the orientation of list  -->
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel IsItemsHost="True" Orientation="Vertical" />
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Button
+                                    Width="280"
+                                    Height="150"
+                                    Padding="0"
+                                    materialDesign:ButtonAssist.CornerRadius="13">
+                                    <Border
+                                        x:Name="Parent"
+                                        Grid.Column="1"
+                                        Width="280"
+                                        Height="150"
+                                        Margin="0,-8,0,-8"
+                                        CornerRadius="13"
+                                        ToolTip="{Binding FileName}">
+                                        <Border.Background>
+                                            <ImageBrush ImageSource="{Binding FilePath}" />
+                                        </Border.Background>
+                                        <Border.Effect>
+                                            <DropShadowEffect
+                                                BlurRadius="15"
+                                                Direction="300"
+                                                Opacity="0.3"
+                                                ShadowDepth="1" />
+                                        </Border.Effect>
+                                    </Border>
+
+                                    <!--  Context Menu  -->
+                                    <Button.ContextMenu>
+                                        <ContextMenu Style="{StaticResource MaterialDesignContextMenu}">
+                                            <MenuItem Command="{Binding Parent.PlacementTarget.Tag.DataContext.SetWallpaper, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}" Header="Set Wallpaper" />
+                                        </ContextMenu>
+                                    </Button.ContextMenu>
+
+                                    <Button.InputBindings>
+                                        <MouseBinding
+                                            Command="{Binding DataContext.UpdateWallpaper, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}"
+                                            CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}"
+                                            Gesture="LeftDoubleClick" />
+                                    </Button.InputBindings>
+                                </Button>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+
+                </Grid>
+
+                <!--  PREVIEW WINDOW  -->
+                <Border
+                    x:Name="Parent"
+                    Grid.Column="1"
+                    Margin="0,0,20,0"
+                    BorderThickness="1"
+                    CornerRadius="13">
+                    <Border.Background>
+                        <ImageBrush x:Name="PreviewImage" ImageSource="{Binding PreviewImageURI, Mode=TwoWay}" />
+                    </Border.Background>
+                    <Border.Effect>
+                        <DropShadowEffect
+                            BlurRadius="15"
+                            Direction="300"
+                            Opacity="0.3"
+                            ShadowDepth="1" />
+                    </Border.Effect>
+                    <Label
+                        x:Name="PreviewHint"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Content="Double CLick any Picture To Preview."
+                        FontFamily="Century Gothic"
+                        FontSize="15"
+                        Visibility="{Binding PreviewImageURI, Converter={StaticResource NullableToVisibilityConverter}}" />
+                </Border>
+            </Grid>
+
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="2*" />
+                </Grid.RowDefinitions>
+
+                <StackPanel
+                    Margin="10,20,0,0"
+                    VerticalAlignment="Bottom"
+                    Orientation="Horizontal">
+                    <StackPanel VerticalAlignment="Center">
+                        <RadioButton
+                            Command="{Binding GetLocalWallpaper}"
+                            Content="Local Wallpapers"
+                            GroupName="GroupChoiceChip"
+                            Style="{StaticResource MaterialDesignChoiceChipRadioButton}" />
+                    </StackPanel>
+
+                    <Separator
+                        Width="25"
+                        Height="2"
+                        RenderTransformOrigin="0.5,0.5">
+                        <Separator.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform />
+                                <SkewTransform />
+                                <RotateTransform Angle="90" />
+                                <TranslateTransform />
+                            </TransformGroup>
+                        </Separator.RenderTransform>
+                    </Separator>
+
+                    <StackPanel Orientation="Horizontal">
+                        <RadioButton
+                            Command="{Binding GetOnlineWallpaper}"
+                            Content="All"
+                            GroupName="GroupChoiceChip"
+                            Style="{StaticResource MaterialDesignChoiceChipRadioButton}" />
+
+                    </StackPanel>
+
+                    <!--  SEARCH BAR  -->
+
+
+                </StackPanel>
+
+                <Frame
+                    Name="DynamicArea"
+                    Grid.Row="1"
+                    NavigationUIVisibility="Hidden"
+                    Source="{Binding FramePage}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseDoubleClick">
+                            <i:InvokeCommandAction Command="{Binding UpdateWallpaper}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Frame>
+
+
+
+            </Grid>
+        </Grid>
+    </ScrollViewer>
+</Page>
