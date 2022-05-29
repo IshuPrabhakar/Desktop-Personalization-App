@@ -24,4 +24,4 @@ To the collection.
     download wallpapers.
 # Demo 
 
-![screenshot]{Demo/Desktop_4daQnQ9h0l - Copy.png}
+![screenshot]{https://github.com/IshuPrabhakar/Desktop-Personalization-App/blob/master/Demo/Desktop_4daQnQ9h0l%20-%20Copy.png}
