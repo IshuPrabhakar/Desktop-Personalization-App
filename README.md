@@ -22,3 +22,6 @@ To the collection.
 12) Has its own application folder to store thumbnails and download wallpapers.
 13) Can change wallpaper dynamically and can loops through all
     download wallpapers.
+# Demo 
+
+![screenshot]{Demo/Desktop_4daQnQ9h0l - Copy.png}
