@@ -2,10 +2,13 @@
 using Desktop.ViewModel;
 using System;
 using System.IO;
+using System.Timers;
 using System.Diagnostics;
 using System.Threading;
 using System.Windows;
 using Forms = System.Windows.Forms;
+using Desktop.Model;
+using System.Collections.ObjectModel;
 
 namespace Desktop
 {
@@ -15,11 +18,13 @@ namespace Desktop
     public partial class MainWindow : Window
     {
         public SettingHelper Helper { get; set; }
+
         public Forms.NotifyIcon notifyIcon;
 
         public MainWindow()
         {
             Helper = new SettingHelper();
+            
 
             InitializeComponent();
 
@@ -36,13 +41,14 @@ namespace Desktop
 
             notifyIcon.Text = Process.GetCurrentProcess().ProcessName;
             notifyIcon.Click += MaximiseWindow;
+
         }
 
         private void MaximiseWindow(object sender, EventArgs e)
         {
             if (WindowState == WindowState.Minimized)
             {
-                WindowState = WindowState.Maximized;
+                WindowState = WindowState.Normal;
             }
         }
 

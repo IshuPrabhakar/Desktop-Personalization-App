@@ -14,21 +14,39 @@ namespace Desktop.ViewModel
         private string apiKey;
         private string searchUrl;
         private bool loopOn;
-        private string loopFrequency;
+        private int loopFrequency;
 
         public string SearchUrl { get => searchUrl; set { searchUrl = value; OnPropertyChanged("searchUrl"); } }
         public string ApiUrl { get => apiUrl; set { apiUrl = value; OnPropertyChanged("apiUrl"); } }
         public string ApiKey { get => apiKey; set { apiKey = value; OnPropertyChanged("apiKey"); } }
         public bool LoopOn { get => loopOn; set { loopOn = value; OnPropertyChanged("loopOn"); } }
-        public string LoopFrequency { get => loopFrequency; set { loopFrequency = value; OnPropertyChanged("loopFrequency"); } }
+        public int LoopFrequency { get => loopFrequency; set { loopFrequency = value; OnPropertyChanged("loopFrequency"); } }
 
         public SettingsViewModel()
         {
             ApiKey = Properties.Settings.Default.ApiKey;
             SearchUrl = Properties.Settings.Default.SearchUrl;
             ApiUrl = Properties.Settings.Default.ApiUrl;
-            loopOn = Properties.Settings.Default.LoopOn;
-            LoopFrequency = Properties.Settings.Default.LoopFrequency;
+            LoopOn = Properties.Settings.Default.LoopOn;
+            int time = (int)Properties.Settings.Default.LoopFrequency;
+            switch (time)
+            {
+                case 10 * 1000 * 60:
+                    LoopFrequency = 1;
+                    break;
+                case 30 * 1000 * 60:
+                    LoopFrequency = 2;
+                    break;
+                case 60 * 24 * 60 * 1000:
+                    LoopFrequency = 4;
+                    break;
+                case 60 * 1000 * 60:
+                    LoopFrequency = 3;
+                    break;
+                case 5 * 1000 * 60:
+                    LoopFrequency = 0;
+                    break;
+            }
 
             // COMMAND INVOCATION
             SaveSettings = new CommandBase(Save);
@@ -43,11 +61,35 @@ namespace Desktop.ViewModel
 
         private void Save(object obj)
         {
+
             Properties.Settings.Default.ApiUrl = ApiUrl;
             Properties.Settings.Default.ApiKey = ApiKey;
             Properties.Settings.Default.SearchUrl = SearchUrl;
             Properties.Settings.Default.LoopOn = LoopOn;
-            Properties.Settings.Default.LoopFrequency = LoopFrequency;
+            int time = 0;
+            switch (LoopFrequency)
+            {
+                case 1:
+                    time = 10 * 1000 * 60;
+                    break;
+                case 2:
+                    time = 30 * 1000 * 60;
+                    break;
+                case 0:
+                    time = 5 * 1000 * 60;
+                    break;
+                case 3:
+                    time = 60 * 1000 * 60;
+                    break;
+                case 4:
+                    time = 60 * 24 * 60 * 1000;
+                    break;
+
+                default:
+                    time = 5;
+                    break;
+            }
+            Properties.Settings.Default.LoopFrequency = time;
             Properties.Settings.Default.Save();
         }
 

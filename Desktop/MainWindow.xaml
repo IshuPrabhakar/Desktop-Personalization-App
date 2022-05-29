@@ -15,7 +15,6 @@
     AllowsTransparency="True"
     Background="Transparent"
     ResizeMode="NoResize"
-    ShowInTaskbar="False"
     TextOptions.TextFormattingMode="Ideal"
     TextOptions.TextRenderingMode="Auto"
     WindowStartupLocation="CenterScreen"

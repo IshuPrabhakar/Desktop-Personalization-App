@@ -134,14 +134,7 @@
                             Opacity="0.3"
                             ShadowDepth="1" />
                     </Border.Effect>
-                    <Label
-                        x:Name="PreviewHint"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Content="Double CLick any Picture To Preview."
-                        FontFamily="Century Gothic"
-                        FontSize="15"
-                        Visibility="{Binding PreviewImageURI, Converter={StaticResource NullableToVisibilityConverter}}" />
+
                 </Border>
             </Grid>
 
@@ -186,9 +179,22 @@
 
                     </StackPanel>
 
-                    <!--  SEARCH BAR  -->
-
-
+                    <!--<StackPanel Margin="20,0,0,0" Orientation="Horizontal">
+                        <Label
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Content="Loop" />
+                        <RadioButton
+                            x:Name="l"
+                            Margin="10,0,0,0"
+                            materialDesign:ButtonAssist.CornerRadius="20"
+                            BorderBrush="DodgerBlue"
+                            BorderThickness="1"
+                            Command="{Binding LoopOn}"
+                            CommandParameter="{Binding ElementName=l, Path=IsChecked}"
+                            IsChecked="{Binding Loop}"
+                            Style="{StaticResource MaterialDesignSwitchToggleButton}" />
+                    </StackPanel>-->
                 </StackPanel>
 
                 <Frame

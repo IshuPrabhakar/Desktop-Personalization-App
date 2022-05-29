@@ -57,13 +57,7 @@
                         Background="Transparent"
                         BorderBrush="{x:Null}"
                         FontSize="15"
-                        Style="{StaticResource MaterialDesignOutlinedTextBox}">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="KeyDown">
-                                <i:InvokeCommandAction Command="{Binding ScrollChanged}" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </TextBox>
+                        Style="{StaticResource MaterialDesignOutlinedTextBox}" />
 
                     <Button
                         Padding="0"

@@ -41,7 +41,8 @@ namespace Desktop.ViewModel
             API_URL = Properties.Settings.Default.ApiUrl;
             PexelsSearchURL = Properties.Settings.Default.SearchUrl;
             Wallpapers = new ObservableCollection<Online>();
-            GetFiles();
+
+            _ = GetFiles();
 
             // COMMAND INVOCATION
             ScrollChanged = new CommandBase(LoadMore);
@@ -55,7 +56,7 @@ namespace Desktop.ViewModel
             if (Helper.IsConnectedToTheInternet() == false)
             {
                 MainWindow main = Application.Current.MainWindow as MainWindow;
-                main.ShowNotification("Can't Search", "Ensure that you have connected to the internet");
+                main.ShowNotification("Can't Search", "Ensure that you have proper internet connection");
             }
             else
             {
@@ -74,7 +75,7 @@ namespace Desktop.ViewModel
             {
                 string searchParam = obj as string;
                 Wallpapers.Clear();
-                await Task.Run(() =>GetFiles(PexelsSearchURL + "query=" + searchParam + "&per_page=16"));
+                _ = GetFiles(PexelsSearchURL + "query=" + searchParam + "&per_page=16");
             }
         }
 
@@ -96,7 +97,7 @@ namespace Desktop.ViewModel
 
         }
 
-        private async void GetFiles(string searchParam)
+        private async Task GetFiles(string searchParam)
         {
             try
             {
@@ -116,7 +117,11 @@ namespace Desktop.ViewModel
                     bitmap.DecodePixelWidth = 285;
                     bitmap.DecodePixelHeight = 152;
                     bitmap.EndInit();
-                    Wallpapers.Add(new Online(item.src.Original.Substring(item.src.Original.IndexOf("pexels-"), item.src.Original.Length - item.src.Original.IndexOf("pexels-")), item.src.Original, item.src.Large, item.src.Large2x, item.src.Medium, item.src.Small, item.src.Portrait, item.src.Landscape, item.src.Tiny, bitmap));
+                    App.Current.Dispatcher.Invoke(() =>
+                    {
+                        Wallpapers.Add(new Online(item.src.Original.Substring(item.src.Original.IndexOf("pexels-"), item.src.Original.Length - item.src.Original.IndexOf("pexels-")), item.src.Original, item.src.Large, item.src.Large2x, item.src.Medium, item.src.Small, item.src.Portrait, item.src.Landscape, item.src.Tiny, bitmap));
+
+                    });
                 }
                 NextPageUrl = Searchphotos.Next_page;
 
@@ -128,7 +133,7 @@ namespace Desktop.ViewModel
             }
         }
 
-        private async void GetFiles()
+        private async Task GetFiles()
         {
             try
             {
@@ -148,7 +153,9 @@ namespace Desktop.ViewModel
                     bitmap.DecodePixelWidth = 285;
                     bitmap.DecodePixelHeight = 152;
                     bitmap.EndInit();
-                    Wallpapers.Add(new Online(item.src.Original.Substring(item.src.Original.IndexOf("pexels-"), item.src.Original.Length - item.src.Original.IndexOf("pexels-")), item.src.Original,item.src.Large,item.src.Large2x,item.src.Medium,item.src.Small,item.src.Portrait,item.src.Landscape,item.src.Tiny,  bitmap));
+
+                    Wallpapers.Add(new Online(item.src.Original.Substring(item.src.Original.IndexOf("pexels-"), item.src.Original.Length - item.src.Original.IndexOf("pexels-")), item.src.Original, item.src.Large, item.src.Large2x, item.src.Medium, item.src.Small, item.src.Portrait, item.src.Landscape, item.src.Tiny, bitmap));
+
                 }
                 NextPageUrl = Curatedphotos.Next_page;
             }

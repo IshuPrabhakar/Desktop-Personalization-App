@@ -75,15 +75,12 @@ namespace Desktop.Frames
         {
             MenuItem Selected = sender as MenuItem;
             Wallpaper SelectedWallpaper = Selected.DataContext as Wallpaper;
-            Thread ti = new Thread(() => { Delete(SelectedWallpaper.FilePath); });
-            ti.Start();
+            Delete(SelectedWallpaper.FilePath);
         }
 
         private void Delete(string path)
         {
-            Dispatcher.Invoke(() => {
-                File.Delete(path);
-            });
+            File.Delete(path);
         }
     }
 }

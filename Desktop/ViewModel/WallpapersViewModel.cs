@@ -31,6 +31,9 @@ namespace Desktop.ViewModel
             get => framePage ?? new Uri("Local.xaml", UriKind.RelativeOrAbsolute);
             set { framePage = value; OnPropertyChanged("framePage"); }
         }
+        private bool loop;
+
+        public bool Loop { get => loop; set { loop = value; OnPropertyChanged("loop"); } }
 
         public WallpapersViewModel()
         {
@@ -44,16 +47,17 @@ namespace Desktop.ViewModel
 
             // COMMAND INVOKATION 
             GetOnlineWallpaper = new CommandBase(GetOnline);
-            GetAbstractWallpaper = new CommandBase(GetAbstract);
             GetLocalWallpaper = new CommandBase(GetLocal);
             UpdateWallpaper = new KeyBinding(Update);
+            LoopOn = new CommandBase(Looph);
             SetWallpaper = new CommandBase(SetLocal);
             // END 
         }
 
-        private void GetAbstract(object obj)
+        private void Looph(object obj)
         {
-
+            Properties.Settings.Default.LoopOn = loop;
+            Properties.Settings.Default.Save();
         }
 
         private void GetLocal(object obj)
@@ -87,7 +91,10 @@ namespace Desktop.ViewModel
 
         private void GetOnline(object obj)
         {
-            FramePage = new Uri("OnlineWallpaper.xaml", UriKind.RelativeOrAbsolute);
+            _ = App.Current.Dispatcher.InvokeAsync(() =>
+              {
+                  FramePage = new Uri("OnlineWallpaper.xaml", UriKind.RelativeOrAbsolute);
+              });
         }
 
         public ObservableCollection<Wallpaper> RetriveCollection(String FileName)
@@ -151,6 +158,7 @@ namespace Desktop.ViewModel
         public CommandBase GetAbstractWallpaper { get; set; }
         public CommandBase GetLocalWallpaper { get; set; }
         public CommandBase SetWallpaper { get; set; }
+        public CommandBase LoopOn { get; set; }
         public KeyBinding UpdateWallpaper { get; set; }
         /// <summary>
         /// End

@@ -40,7 +40,7 @@ namespace Desktop.Frames
             InitializeComponent();
         }
 
-        private void SetAsWallpaper(object sender, RoutedEventArgs e)
+        private async void SetAsWallpaper(object sender, RoutedEventArgs e)
         {
             if (Helper.IsConnectedToTheInternet() == false)
             {
@@ -55,7 +55,7 @@ namespace Desktop.Frames
             //Check if File exist or if not exist then download first then set as wallpaper
             if (!File.Exists(SelectedWallpaper.original.Substring(SelectedWallpaper.original.IndexOf("pexels-"), SelectedWallpaper.original.Length - SelectedWallpaper.original.IndexOf("pexels-"))))
             {
-                download(SelectedWallpaper);
+                await download(SelectedWallpaper);
             }
 
             try
@@ -72,7 +72,7 @@ namespace Desktop.Frames
             }
         }
 
-        private void DownloadImage(object sender, RoutedEventArgs e)
+        private async void DownloadImage(object sender, RoutedEventArgs e)
         {
             if (Helper.IsConnectedToTheInternet() == false)
             {
@@ -84,7 +84,7 @@ namespace Desktop.Frames
             MenuItem Selected = sender as MenuItem;
             Online SelectedWallpaper = Selected.DataContext as Online;
 
-            download(SelectedWallpaper);
+            await download(SelectedWallpaper);
         }
 
         private async Task download(Online SelectedWallpaper)
@@ -101,6 +101,8 @@ namespace Desktop.Frames
         {
             Helper.MakeThumbNails("Local.", DownloadedFilename);
             DownloadedThumb = Helper.CreateThumbFilePath(DownloadedFilename);
+            /// Show a prompt
+            MessageBox.Show("Wallpaper downloaded.","Downloaded", MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }
 }

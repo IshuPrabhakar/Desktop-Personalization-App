@@ -9,6 +9,7 @@ namespace Desktop.Helper
 {
     public class Online
     {
+        public Online() { }
 
         public Online(string Filename, string original, string large, string large2x, string medium, string small, string portrait, string landscape, string tiny, BitmapImage filePath)
         {

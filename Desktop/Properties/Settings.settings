@@ -15,9 +15,9 @@
       <Value Profile="(Default)">https://api.pexels.com/v1/search?</Value>
     </Setting>
     <Setting Name="LoopOn" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="LoopFrequency" Type="System.String" Scope="User">
+    <Setting Name="LoopFrequency" Type="System.Int32" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
   </Settings>

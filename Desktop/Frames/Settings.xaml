@@ -8,18 +8,19 @@
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="Settings"
-    d:DesignHeight="450"
+    d:DesignHeight="850"
     d:DesignWidth="800"
     mc:Ignorable="d">
     <Page.Resources>
         <ViewModel:SettingsViewModel x:Key="ViewModel" />
     </Page.Resources>
-    <Page.InputBindings>
-        <KeyBinding Command="{Binding SaveSettings}" Gesture="CTRL+S" />
-    </Page.InputBindings>
 
     <ScrollViewer>
         <Grid Background="White" DataContext="{StaticResource ViewModel}">
+            <Grid.InputBindings>
+                <KeyBinding Command="{Binding SaveSettings}" Gesture="CTRL+S" />
+            </Grid.InputBindings>
+
             <Grid.RowDefinitions>
                 <RowDefinition />
                 <RowDefinition Height="5*" />
@@ -147,23 +148,25 @@
                     <CheckBox
                         x:Name="loop"
                         Grid.Column="1"
-                        Style="{StaticResource MaterialDesignSwitchToggleButton}" />
+                        Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                        IsChecked="{Binding LoopOn}"/>
                 </Grid>
 
-                <Grid Margin="0,8,0,8" Visibility="{Binding ElementName=loop, Path=IsChecked, Converter={StaticResource InverseBoolToVisConverter}}">
+                <Grid Margin="0,8,0,8" Visibility="{Binding ElementName=loop, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
-                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="2*" />
                     </Grid.ColumnDefinitions>
                     <Label
                         HorizontalAlignment="left"
                         VerticalAlignment="Center"
                         Content="Loop every"
                         FontSize="14" />
-                    <ComboBox Grid.Column="1" Style="{StaticResource MaterialDesignOutlinedComboBox}">
-                        <ComboBoxItem Content="Every 30 mins" />
-                        <ComboBoxItem Content="Every 10 mins" />
+                    <ComboBox Grid.Column="1" Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                              SelectedIndex="{Binding LoopFrequency}">
                         <ComboBoxItem Content="Every 5 mins" />
+                        <ComboBoxItem Content="Every 10 mins" />
+                        <ComboBoxItem Content="Every 30 mins" />
                         <ComboBoxItem Content="Every Hour" />
                         <ComboBoxItem Content="Every Day" />
                     </ComboBox>
@@ -171,6 +174,23 @@
 
             </StackPanel>
 
+            <Border
+                Grid.Row="1"
+                Grid.Column="1"
+                Width="80"
+                Height="30"
+                VerticalAlignment="Bottom"
+                Background="#CC167EE6"
+                CornerRadius="13">
+                <Button
+                    VerticalAlignment="Center"
+                    materialDesign:ButtonAssist.CornerRadius="20"
+                    Command="{Binding SaveSettings}"
+                    Content="Save"
+                    Foreground="#DDFFFFFF"
+                    Style="{StaticResource MaterialDesignFlatButton}"
+                    ToolTip="MaterialDesignActionAccentToggleButton" />
+            </Border>
 
             <StackPanel
                 Grid.Row="2"

@@ -73,7 +73,6 @@ namespace Desktop.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool LoopOn {
             get {
                 return ((bool)(this["LoopOn"]));
@@ -85,10 +84,9 @@ namespace Desktop.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string LoopFrequency {
+        public int LoopFrequency {
             get {
-                return ((string)(this["LoopFrequency"]));
+                return ((int)(this["LoopFrequency"]));
             }
             set {
                 this["LoopFrequency"] = value;

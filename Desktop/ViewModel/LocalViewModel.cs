@@ -71,7 +71,7 @@ namespace Desktop.ViewModel
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine(ex);
+                Debug.WriteLine(ex);
             }
         }
 
